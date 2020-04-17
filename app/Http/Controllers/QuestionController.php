@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Resources\QuestionResource;
+
 use App\Model\Question;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\QuestionResource;
+
 
 class QuestionController extends Controller
 {
@@ -20,8 +22,6 @@ class QuestionController extends Controller
         return QuestionResource::collection(Question::latest()->get());
     }
 
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -30,7 +30,7 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        auth()->user()->question()->create($request->all());
+        // auth()->user()->question()->create($request->all());
         Question::create($request->all());
         return response('Created', Response::HTTP_CREATED);
     }
