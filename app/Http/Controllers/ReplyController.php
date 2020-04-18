@@ -2,18 +2,26 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Model\Reply;
 use Illuminate\Http\Request;
+use App\Model\Question;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\ReplyResource;
+
 
 class ReplyController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Question $question)
     {
-        //
+        // return $question;
+        return ReplyResource::collection($question->replies);
+        // return Reply::latest()->get();
     }
 
     /**
@@ -22,20 +30,21 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Question $question, Request $request)
     {
-        //
+        $reply = $question->replies()->create($request->all());
+        return response(['reply' => new ReplyResource($reply)], Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return ReplyResource
      */
-    public function show($id)
+    public function show(Question $question, Reply $reply)
     {
-        //
+        return new ReplyResource($reply);
     }
 
     /**
@@ -45,9 +54,10 @@ class ReplyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Question $question, Request $request, Reply $reply)
     {
-        //
+        $reply->update($request->all());
+        return response('Update', Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -56,8 +66,9 @@ class ReplyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $question, Reply $reply)
     {
-        //
+        $reply->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
