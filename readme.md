@@ -1,4 +1,5 @@
-## 8/1.28 done
+## 9/4.31 Done
+# 9. JWT for Authentication
 
 # This is a real time single page forum app.
 
