@@ -1,5 +1,5 @@
-## 9/4.31 Done
-# 9. JWT for Authentication
+## 10/1.34 Done
+# 10. JWT Middleware and Exception Handling
 
 # This is a real time single page forum app.
 
